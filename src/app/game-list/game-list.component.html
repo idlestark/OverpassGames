@@ -1,5 +1,5 @@
 <h4>Lista de juegos:</h4>
-<table class="table">
+<table class="table text-center">
   <thead>
     <tr>
       <th>Imagen</th>
@@ -7,29 +7,28 @@
       <th>Género</th>
       <th>Plataformas</th>
       <th>Precio</th>
+      <th>Stock</th>
+      <th>Cantidad</th>
+      <th>Comprar</th>
     </tr>
   </thead>
   <tbody>
-    <tr>
-      <td><img [src]="game.image" [alt]="game.name"></td>
+    <tr *ngFor="let game of games" [ngClass]="{'clearance': game.clearance}">
+      <td><img class="img-thumbnail" [src]="game.image" [alt]="game.name"></td>
       <td>{{game.name}}</td>
       <td>{{game.genre}}</td>
       <td>{{game.platform}}</td>
-      <td>{{game.price}}</td>
-    </tr>
-    <tr>
-      <td><img [src]="game2.image" [alt]="game2.name"></td>
-      <td>{{game2.name}}</td>
-      <td>{{game2.genre}}</td>
-      <td>{{game2.platform}}</td>
-      <td>{{game2.price}}</td>
-    </tr>
-    <tr>
-      <td><img [src]="game3.image" [alt]="game3.name"></td>
-      <td>{{game3.name}}</td>
-      <td>{{game3.genre}}</td>
-      <td>{{game3.platform}}</td>
-      <td>{{game3.price}}</td>
+      <td>{{game.price | currency}}</td>
+      <td>
+        <span class="badge text-bg-danger" *ngIf="game.stock ==0;">No disponible</span>
+        <span class="badge text-bg-success" *ngIf="game.clearance == true;">Oferta!</span>
+      </td>
+      <td>
+        <app-input-integer (maxReached)="maxReached($event)" [(quantity)]="game.quantity" [max]="game.stock" *ngIf="game.stock !=0;"></app-input-integer>
+        <td>
+       <button *ngIf="game.stock !=0;" class="btn btn-primary" (click)="addToCart(game)">Añadir al carrito</button>
+
+      </td>
     </tr>
   </tbody>
 </table>
